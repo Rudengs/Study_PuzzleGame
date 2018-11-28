@@ -9,65 +9,44 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1509361251019132}
+  m_RootGameObject: {fileID: 1702130721675350}
   m_IsPrefabAsset: 1
---- !u!1 &1509361251019132
+--- !u!1 &1702130721675350
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4758316677649274}
-  - component: {fileID: 212901107761041654}
-  - component: {fileID: 114741152900237678}
+  - component: {fileID: 4276563037904786}
+  - component: {fileID: 212731001090725454}
   m_Layer: 0
-  m_Name: Tile Background
+  m_Name: Blue Dot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4758316677649274
+--- !u!4 &4276563037904786
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1509361251019132}
+  m_GameObject: {fileID: 1702130721675350}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2013335, y: -0.17560053, z: 0}
+  m_LocalPosition: {x: 3.41, y: 3.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114741152900237678
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1509361251019132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e62ef0d31d7249fb8ed23ad356397bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dots:
-  - {fileID: 1208506144172678, guid: d38bb27c59f92458e87046ba991b2a0c, type: 2}
-  - {fileID: 1702130721675350, guid: e6038388d20da4d01bc9332a3998a950, type: 2}
-  - {fileID: 1183710639833518, guid: 30266bb55bb6742908e15f30df601743, type: 2}
-  - {fileID: 1403647310459044, guid: fa28b58db4ed34fd0ad5f204ae5dbfab, type: 2}
-  - {fileID: 1985865784797986, guid: 0e9bcd3133f934d54828ea05654662cf, type: 2}
-  - {fileID: 1738649182833466, guid: dd84aa90a24894ae89fe03a5f5214a2f, type: 2}
-  - {fileID: 1739110635430890, guid: c9c45940e6fb7434cb30a60fed8bdbbc, type: 2}
-  - {fileID: 1612839780087712, guid: d1cc960a1789540fe982d0c91b3022e6, type: 2}
---- !u!212 &212901107761041654
+--- !u!212 &212731001090725454
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1509361251019132}
-  m_Enabled: 0
+  m_GameObject: {fileID: 1702130721675350}
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -96,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0c1bfa2ae566f4433bcf354eb7afe92d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 4c4b54e1aca384c838da8f6d0e350e42, type: 3}
+  m_Color: {r: 0.16862741, g: 0.61180764, b: 0.9607843, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
