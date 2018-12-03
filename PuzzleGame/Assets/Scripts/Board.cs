@@ -31,11 +31,40 @@ public class Board : MonoBehaviour {
                 backgroundTile.name = "( " + i + ", " + j + " )";
 
                 int dotToUse = Random.Range(0, dots.Length);
+                while(MathcesAt(i, j, dots[dotToUse]))
+                {
+                    dotToUse = Random.Range(0, dots.Length);
+                }
                 GameObject dot = Instantiate(dots[dotToUse], tempPos, Quaternion.identity);
                 dot.transform.parent = this.transform;
                 dot.name = "( " + i + ", " + j + " )";
                 allDots[i, j] = dot;
             }
         }
+    }
+
+    private bool MathcesAt(int column, int row, GameObject piece)
+    {
+        if(1 < column && 1 < row)
+        {
+            if(allDots[column - 1, row].tag == piece.tag && allDots[column - 2, row])
+                return true;
+            if (allDots[column, row - 1].tag == piece.tag && allDots[column, row - 2])
+                return true;
+        }
+        else if(column <= 1 || row <= 1)
+        {
+            if(1 < row)
+            {
+                if (allDots[column, row - 1].tag == piece.tag && allDots[column, row - 2])
+                    return true;
+            }
+            if(1 < column)
+            {
+                if (allDots[column - 1, row].tag == piece.tag && allDots[column - 2, row])
+                    return true;
+            }
+        }
+        return false;
     }
 }
