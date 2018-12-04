@@ -35,7 +35,6 @@ public class Dot : MonoBehaviour {
 
         if(isMatched)
         {
-            Debug.Log("Matched");
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.color = new Color(1f, 1f, 1f, .2f);
         }
@@ -44,7 +43,9 @@ public class Dot : MonoBehaviour {
         {
             // Move Towards the target
             tempPosition = new Vector2(column, transform.position.y);
-            transform.position = Vector2.Lerp(transform.position, tempPosition, .4f);
+            transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
+            if (board.allDots[column, row] != this.gameObject)
+                board.allDots[column, row] = this.gameObject;
         }
         else
         {
@@ -58,7 +59,9 @@ public class Dot : MonoBehaviour {
         {
             // Move Towards the target
             tempPosition = new Vector2(transform.position.x, row);
-            transform.position = Vector2.Lerp(transform.position, tempPosition, .4f);
+            transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
+            if (board.allDots[column, row] != this.gameObject)
+                board.allDots[column, row] = this.gameObject;
         }
         else
         {
@@ -83,19 +86,22 @@ public class Dot : MonoBehaviour {
     public IEnumerator CheckMoveCo()
     {
         yield return new WaitForSeconds(.5f);
-        if(otherDot != null)
+        if (otherDot != null)
         {
-            if(!isMatched && !otherDot.GetComponent<Dot>().isMatched)
+            if (!isMatched && !otherDot.GetComponent<Dot>().isMatched)
             {
                 otherDot.GetComponent<Dot>().row = row;
                 otherDot.GetComponent<Dot>().column = column;
                 row = previousRow;
                 column = previousColumn;
             }
+            else
+            {
+                board.DestroyMatches();
+            }
             otherDot = null;
         }
     }
-
     void CalculateAngle()
     {
         if(Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist ||
@@ -141,12 +147,12 @@ public class Dot : MonoBehaviour {
 
     void FindMatches()
     {
-        if(0 < column && column < board.width -1)
+        if(0 < column && column < board.width - 1)
         {
             GameObject leftDot1 = board.allDots[column - 1, row];
             GameObject rightDot1 = board.allDots[column + 1, row];
 
-            if (leftDot1 != null && rightDot1 != null)
+            if (leftDot1 == null || rightDot1 == null)
                 return;
 
             if (leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag)
@@ -161,7 +167,7 @@ public class Dot : MonoBehaviour {
             GameObject downDot1 = board.allDots[column, row-1];
             GameObject upDot1 = board.allDots[column, row+1];
 
-            if (downDot1 != null && upDot1 != null)
+            if (downDot1 == null || upDot1 == null)
                 return;
 
             if (downDot1.tag == this.gameObject.tag && upDot1.tag == this.gameObject.tag)
