@@ -22,10 +22,8 @@ public class Dot : MonoBehaviour {
     // Use this for initialization
     void Start () {
         board = FindObjectOfType<Board>();
-        column = (int)transform.position.x;
-        row = (int)transform.position.y;
-        previousColumn = column;
-        previousRow = row;
+        //column = (int)transform.position.x;
+        //row = (int)transform.position.y;
     }
 	
 	// Update is called once per frame
@@ -114,7 +112,11 @@ public class Dot : MonoBehaviour {
 
     void MovePieces()
     {
-        if(-45 < swipeAngle && swipeAngle <= 45 && column < board.width - 1)
+
+        previousColumn = column;
+        previousRow = row;
+
+        if (-45 < swipeAngle && swipeAngle <= 45 && column < board.width - 1)
         {
             // Right Swipe
             otherDot = board.allDots[column + 1, row];

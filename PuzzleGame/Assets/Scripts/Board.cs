@@ -6,6 +6,7 @@ public class Board : MonoBehaviour {
 
     public int width;
     public int height;
+    public int offSet;
     public GameObject tilePrefab;
     public GameObject[] dots;
     private BackgroundTile[,] allTiles;
@@ -25,17 +26,19 @@ public class Board : MonoBehaviour {
         {
             for (int j = 0; j < height; j++)
             {
-                Vector2 tempPos = new Vector2(i, j);
+                Vector2 tempPos = new Vector2(i, j + offSet);
                 GameObject backgroundTile = Instantiate(tilePrefab, tempPos, Quaternion.identity) as GameObject;
                 backgroundTile.transform.parent = this.transform;
                 backgroundTile.name = "( " + i + ", " + j + " )";
 
                 int dotToUse = Random.Range(0, dots.Length);
                 while(MathcesAt(i, j, dots[dotToUse]))
-                {
                     dotToUse = Random.Range(0, dots.Length);
-                }
+                
                 GameObject dot = Instantiate(dots[dotToUse], tempPos, Quaternion.identity);
+                dot.GetComponent<Dot>().column = i;
+                dot.GetComponent<Dot>().row = j;
+
                 dot.transform.parent = this.transform;
                 dot.name = "( " + i + ", " + j + " )";
                 allDots[i, j] = dot;
@@ -111,5 +114,57 @@ public class Board : MonoBehaviour {
             nullCount = 0;
         }
         yield return new WaitForSeconds(.6f);
+
+        StartCoroutine(FillBoardCo());
     }
+
+    private void RefillBoard()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if(allDots[i,j] == null)
+                {
+                    Vector2 tempPosition = new Vector2(i, j + offSet);
+                    int dotToUse = Random.Range(0, dots.Length);
+                    GameObject newDot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
+                    allDots[i, j] = newDot;
+                    newDot.GetComponent<Dot>().column = i;
+                    newDot.GetComponent<Dot>().row = j;
+                }
+            }
+        }
+    }
+
+    private bool MatchesOnBoard()
+    {
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                if(allDots[i, j] != null)
+                {
+                    if(allDots[i, j].GetComponent<Dot>().isMatched)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private IEnumerator FillBoardCo()
+    {
+        RefillBoard();
+        yield return new WaitForSeconds(.5f);
+
+        while(MatchesOnBoard())
+        {
+            yield return new WaitForSeconds(.5f);
+            DestroyMatches();
+        }
+    }
+
 }
