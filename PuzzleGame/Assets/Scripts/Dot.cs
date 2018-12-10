@@ -9,6 +9,7 @@ public class Dot : MonoBehaviour {
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
     private Vector2 tempPosition;
+    private FindMatches findMatches;
 
     public int column;
     public int row;
@@ -22,8 +23,7 @@ public class Dot : MonoBehaviour {
     // Use this for initialization
     void Start () {
         board = FindObjectOfType<Board>();
-        //column = (int)transform.position.x;
-        //row = (int)transform.position.y;
+        findMatches = FindObjectOfType<FindMatches>();
     }
 	
 	// Update is called once per frame
@@ -44,6 +44,7 @@ public class Dot : MonoBehaviour {
             transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
             if (board.allDots[column, row] != this.gameObject)
                 board.allDots[column, row] = this.gameObject;
+            findMatches.FindAllMatches();
         }
         else
         {
@@ -60,6 +61,7 @@ public class Dot : MonoBehaviour {
             transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
             if (board.allDots[column, row] != this.gameObject)
                 board.allDots[column, row] = this.gameObject;
+            findMatches.FindAllMatches();
         }
         else
         {
@@ -72,13 +74,17 @@ public class Dot : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if(board.curState == GameState.move)
+            firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     private void OnMouseUp()
     {
-        finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        CalculateAngle();
+        if (board.curState == GameState.move)
+        {
+            finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            CalculateAngle();
+        }
     }
 
     public IEnumerator CheckMoveCo()
@@ -92,6 +98,8 @@ public class Dot : MonoBehaviour {
                 otherDot.GetComponent<Dot>().column = column;
                 row = previousRow;
                 column = previousColumn;
+                yield return new WaitForSeconds(.5f);
+                board.curState = GameState.move;
             }
             else
             {
@@ -102,12 +110,15 @@ public class Dot : MonoBehaviour {
     }
     void CalculateAngle()
     {
-        if(Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist ||
+        if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist ||
             Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist)
         {
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
             MovePieces();
+            board.curState = GameState.wait;
         }
+        else
+            board.curState = GameState.move;
     }
 
     void MovePieces()

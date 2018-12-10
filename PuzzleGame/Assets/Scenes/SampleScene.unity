@@ -202,7 +202,7 @@ GameObject:
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -230,10 +230,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae10a63730dc467b93f029181589886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curState: 1
   width: 7
   height: 10
-  offSet: 10
+  offSet: 20
   tilePrefab: {fileID: 1509361251019132, guid: 980aaaf7190b14d6e9c85270ffe9c542, type: 2}
+  destroyEffect: {fileID: 1556714640599076, guid: 7053546ca698e4d2eac8c4e8028bf5a8,
+    type: 2}
   dots:
   - {fileID: 1702130721675350, guid: e6038388d20da4d01bc9332a3998a950, type: 2}
   - {fileID: 1208506144172678, guid: d38bb27c59f92458e87046ba991b2a0c, type: 2}
@@ -243,3 +246,44 @@ MonoBehaviour:
   - {fileID: 1738649182833466, guid: dd84aa90a24894ae89fe03a5f5214a2f, type: 2}
   - {fileID: 1739110635430890, guid: c9c45940e6fb7434cb30a60fed8bdbbc, type: 2}
   - {fileID: 1612839780087712, guid: d1cc960a1789540fe982d0c91b3022e6, type: 2}
+--- !u!1 &1307868871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1307868872}
+  - component: {fileID: 1307868873}
+  m_Layer: 0
+  m_Name: Match Finder
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1307868872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1307868871}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3, y: 5, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1307868873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1307868871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd4d1527dd1b34a5eb5e9454cba51877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curMatches: []

@@ -2,21 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState
+{
+    wait,
+    move
+}
+
 public class Board : MonoBehaviour {
 
+    private BackgroundTile[,] allTiles;
+    private FindMatches findMatches;
+
+    public GameState curState = GameState.move;
     public int width;
     public int height;
     public int offSet;
     public GameObject tilePrefab;
+    public GameObject destroyEffect;
     public GameObject[] dots;
-    private BackgroundTile[,] allTiles;
     public GameObject[,] allDots;
-
-	// Use this for initialization
-	void Start () 
+    // Use this for initialization
+    void Start () 
     {
         allTiles = new BackgroundTile[width, height];
         allDots = new GameObject[width, height];
+        findMatches = FindObjectOfType<FindMatches>();
         SetUp();
 	}
 	
@@ -75,6 +85,9 @@ public class Board : MonoBehaviour {
     {
         if(allDots[column,row].GetComponent<Dot>().isMatched)
         {
+            findMatches.curMatches.Remove(allDots[column,row]);
+            GameObject particle = Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
+            Destroy(particle, .5f);
             Destroy(allDots[column, row]);
             allDots[column, row] = null;
         }
@@ -165,6 +178,8 @@ public class Board : MonoBehaviour {
             yield return new WaitForSeconds(.5f);
             DestroyMatches();
         }
+        yield return new WaitForSeconds(.5f);
+        curState = GameState.move;
     }
 
 }
