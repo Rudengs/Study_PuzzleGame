@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Dot : MonoBehaviour {
 
+    [Header("Board Variables")]
     private Board board;
     private GameObject otherDot;
     private Vector2 firstTouchPosition;
@@ -15,21 +17,42 @@ public class Dot : MonoBehaviour {
     public int row;
     public int previousColumn;
     public int previousRow;
-    public float swipeAngle = 0;
-    public float swipeResist = 1f;
     public bool isMatched = false;
 
+    [Header("Swipe Stuff")]
+    public float swipeAngle = 0;
+    public float swipeResist = 1f;
+
+    [Header("Powerup Stuff")]
+    public bool isrowBomb;
+    public bool isColumnBomb;
+    public GameObject rowArrow;
+    public GameObject columnArrow;
 
     // Use this for initialization
     void Start () {
+        isrowBomb = false;
+        isColumnBomb = false;
+
         board = FindObjectOfType<Board>();
         findMatches = FindObjectOfType<FindMatches>();
     }
-	
-	// Update is called once per frame
-	void Update () 
+
+    // This is for testing and Debug only.
+    private void OnMouseOver()
     {
-        FindMatches();
+        if(Input.GetMouseButtonDown(1))
+        {
+            isrowBomb = true;
+            GameObject arrow = Instantiate(rowArrow, transform.position, Quaternion.identity);
+            arrow.transform.parent = this.transform;
+        }
+    }
+
+    // Update is called once per frame
+    void Update () 
+    {
+        //FindMatches();
 
         if(isMatched)
         {
