@@ -13,10 +13,12 @@ public class Board : MonoBehaviour {
     private BackgroundTile[,] allTiles;
     private FindMatches findMatches;
 
-    public GameState curState = GameState.move;
+
     public int width;
     public int height;
     public int offSet;
+    public Dot curDot;
+    public GameState curState = GameState.move;
     public GameObject tilePrefab;
     public GameObject destroyEffect;
     public GameObject[] dots;
@@ -85,6 +87,9 @@ public class Board : MonoBehaviour {
     {
         if(allDots[column,row].GetComponent<Dot>().isMatched)
         {
+            if (findMatches.curMatches.Count == 4 || findMatches.curMatches.Count == 7)
+                findMatches.CheckBombs();
+
             findMatches.curMatches.Remove(allDots[column,row]);
             GameObject particle = Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
             Destroy(particle, .5f);
@@ -178,6 +183,7 @@ public class Board : MonoBehaviour {
             yield return new WaitForSeconds(.5f);
             DestroyMatches();
         }
+        findMatches.curMatches.Clear();
         yield return new WaitForSeconds(.5f);
         curState = GameState.move;
     }

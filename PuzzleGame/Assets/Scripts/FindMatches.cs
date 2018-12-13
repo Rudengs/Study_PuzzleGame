@@ -37,12 +37,19 @@ public class FindMatches : MonoBehaviour {
                         {
                             if(leftDot.tag == curDot.tag && rightDot.tag == curDot.tag)
                             {
-                                if(curDot.GetComponent<Dot>().isrowBomb 
-                                || leftDot.GetComponent<Dot>().isrowBomb 
-                                || rightDot.GetComponent<Dot>().isrowBomb)
+                                if(curDot.GetComponent<Dot>().isRowBomb 
+                                || leftDot.GetComponent<Dot>().isRowBomb 
+                                || rightDot.GetComponent<Dot>().isRowBomb)
                                 {
                                     curMatches.Union(GetRowPieces(j));
                                 }
+
+                                if (curDot.GetComponent<Dot>().isColumnBomb)
+                                    curMatches.Union(GetColumnPieces(i));
+                                if (leftDot.GetComponent<Dot>().isColumnBomb)
+                                    curMatches.Union(GetColumnPieces(i-1));
+                                if (rightDot.GetComponent<Dot>().isColumnBomb)
+                                    curMatches.Union(GetColumnPieces(i+1));
 
                                 if (!curMatches.Contains(leftDot))
                                     curMatches.Add(leftDot);
@@ -65,6 +72,20 @@ public class FindMatches : MonoBehaviour {
                         {
                             if (upDot.tag == curDot.tag && downDot.tag == curDot.tag)
                             {
+                                if (curDot.GetComponent<Dot>().isColumnBomb
+                                || upDot.GetComponent<Dot>().isColumnBomb
+                                || downDot.GetComponent<Dot>().isColumnBomb)
+                                {
+                                    curMatches.Union(GetColumnPieces(i));
+                                }
+
+                                if (curDot.GetComponent<Dot>().isRowBomb)
+                                    curMatches.Union(GetRowPieces(j));
+                                if (downDot.GetComponent<Dot>().isRowBomb)
+                                    curMatches.Union(GetRowPieces(j-1));
+                                if (upDot.GetComponent<Dot>().isRowBomb)
+                                    curMatches.Union(GetRowPieces(j+1));
+
                                 if (!curMatches.Contains(upDot))
                                     curMatches.Add(upDot);
                                 if (!curMatches.Contains(downDot))
@@ -109,5 +130,35 @@ public class FindMatches : MonoBehaviour {
             }
         }
         return dots;
+    }
+
+    public void CheckBombs()
+    {
+        // Did the player move something
+        if(board.curDot != null)
+        {
+            //Is teh iece they move matched;
+            if(board.curDot.isMatched)
+            {
+                // make it matched
+                board.curDot.isMatched = false;
+                // Descide what kind of bomb to make
+                int typeOfBomb = Random.Range(0, 100);
+                if(typeOfBomb < 50)
+                {
+                    // make a row bomb
+                    board.curDot.MakeRowBomb();
+                }
+                else if(50 < typeOfBomb)
+                {
+                    // make a column bomb
+                    board.curDot.MakeColumnBomb();
+                }
+            }
+            else if(board.curDot.otherDot != null)
+            {
+
+            }
+        }
     }
 }
