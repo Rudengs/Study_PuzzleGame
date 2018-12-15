@@ -104,6 +104,23 @@ public class FindMatches : MonoBehaviour {
         }
     }
 
+    public void MatchPiecesOfColor(string color)
+    {
+        for(int i = 0; i < board.width; i++)
+        {
+            for(int j = 0; j < board.height; j++)
+            {
+                if(board.allDots[i, j] != null)
+                {
+                    if(board.allDots[i, j].tag == color)
+                    {
+                        board.allDots[i, j].GetComponent<Dot>().isMatched = true;
+                    }
+                }
+            }
+        }
+    }
+
     List<GameObject> GetColumnPieces(int column)
     {
         List<GameObject> dots = new List<GameObject>();
@@ -142,22 +159,34 @@ public class FindMatches : MonoBehaviour {
             {
                 // make it matched
                 board.curDot.isMatched = false;
-                // Descide what kind of bomb to make
-                int typeOfBomb = Random.Range(0, 100);
-                if(typeOfBomb < 50)
+
+                if((-45 < board.curDot.swipeAngle && board.curDot.swipeAngle <= 45)
+                || (board.curDot.swipeAngle < -135 || 135 <= board.curDot.swipeAngle))
                 {
-                    // make a row bomb
                     board.curDot.MakeRowBomb();
                 }
-                else if(50 < typeOfBomb)
+                else
                 {
-                    // make a column bomb
                     board.curDot.MakeColumnBomb();
                 }
             }
             else if(board.curDot.otherDot != null)
             {
+                Dot otherDot = board.curDot.otherDot.GetComponent<Dot>();
+                if(otherDot.isMatched)
+                {
+                    otherDot.isMatched = false;
 
+                    if ((-45 < board.curDot.swipeAngle && board.curDot.swipeAngle <= 45)
+                    || (board.curDot.swipeAngle < -135 || 135 <= board.curDot.swipeAngle))
+                    {
+                        otherDot.MakeRowBomb();
+                    }
+                    else
+                    {
+                        otherDot.MakeColumnBomb();
+                    }
+                }
             }
         }
     }
