@@ -90,7 +90,6 @@ public class Board : MonoBehaviour {
             if (findMatches.curMatches.Count == 4 || findMatches.curMatches.Count == 7)
                 findMatches.CheckBombs();
 
-            findMatches.curMatches.Remove(allDots[column,row]);
             GameObject particle = Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
             Destroy(particle, .5f);
             Destroy(allDots[column, row]);
@@ -105,11 +104,10 @@ public class Board : MonoBehaviour {
             for (int j = 0; j < height; j++)
             {
                 if (allDots[i, j] != null)
-                {
                     DestroyMatchesAt(i, j);
-                }
             }
         }
+        findMatches.curMatches.Clear();
         StartCoroutine(DecreaseRowCo());
     }
 
