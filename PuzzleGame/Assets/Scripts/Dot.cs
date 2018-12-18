@@ -27,14 +27,18 @@ public class Dot : MonoBehaviour {
     public bool isRowBomb;
     public bool isColumnBomb;
     public bool isColorBomb;
+    public bool isAdjacentbomb;
     public GameObject rowArrow;
     public GameObject columnArrow;
     public GameObject colorBomb;
+    public GameObject adjacentBomb;
 
     // Use this for initialization
     void Start () {
         isRowBomb = false;
         isColumnBomb = false;
+        isColorBomb = false;
+        isAdjacentbomb = false;
 
         board = FindObjectOfType<Board>();
         findMatches = FindObjectOfType<FindMatches>();
@@ -45,8 +49,8 @@ public class Dot : MonoBehaviour {
     {
         if(Input.GetMouseButtonDown(1))
         {
-            isColorBomb = true;
-            GameObject arrow = Instantiate(colorBomb, transform.position, Quaternion.identity);
+            isAdjacentbomb = true;
+            GameObject arrow = Instantiate(adjacentBomb, transform.position, Quaternion.identity);
             arrow.transform.parent = this.transform;
         }
     }
@@ -243,5 +247,19 @@ public class Dot : MonoBehaviour {
         isColumnBomb = true;
         GameObject arrow = Instantiate(columnArrow, transform.position, Quaternion.identity);
         arrow.transform.parent = this.transform;
+    }
+
+    public void MakeColorBomb()
+    {
+        isColorBomb = true;
+        GameObject color = Instantiate(colorBomb, transform.position, Quaternion.identity);
+        color.transform.parent = this.transform;
+    }
+
+    public void MakeAdjajcentBomb()
+    {
+        isAdjacentbomb = true;
+        GameObject marker = Instantiate(adjacentBomb, transform.position, Quaternion.identity);
+        marker.transform.parent = this.transform;
     }
 }

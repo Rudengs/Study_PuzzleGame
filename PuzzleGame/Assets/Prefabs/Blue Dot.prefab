@@ -79,10 +79,13 @@ MonoBehaviour:
   isRowBomb: 0
   isColumnBomb: 0
   isColorBomb: 0
+  isAdjacentbomb: 0
   rowArrow: {fileID: 1326672533781004, guid: 0309ffc9c7a6a4aa8ada187634f19b75, type: 2}
   columnArrow: {fileID: 1941126220762156, guid: b4d123b870a5c4293924698eed756216,
     type: 2}
   colorBomb: {fileID: 1300610024681350, guid: 6343db7e66730444daced32e7bc8ac5a, type: 2}
+  adjacentBomb: {fileID: 1614580810948110, guid: 000c8a0be9da64a148929a292aef0bbe,
+    type: 2}
 --- !u!212 &212731001090725454
 SpriteRenderer:
   m_ObjectHideFlags: 1
