@@ -58,14 +58,6 @@ public class Dot : MonoBehaviour {
     // Update is called once per frame
     void Update () 
     {
-        //FindMatches();
-        /*
-        if(isMatched)
-        {
-            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.color = new Color(1f, 1f, 1f, .2f);
-        }
-        */
         if (Mathf.Abs(column - transform.position.x) > .1)
         {
             // Move Towards the target
@@ -148,14 +140,15 @@ public class Dot : MonoBehaviour {
             //otherDot = null;
         }
     }
+
     void CalculateAngle()
     {
         if (Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist ||
             Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist)
         {
+            board.curState = GameState.wait;
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
             MovePieces();
-            board.curState = GameState.wait;
             board.curDot = this;
         }
         else
@@ -164,41 +157,45 @@ public class Dot : MonoBehaviour {
         }
     }
 
-    void MovePieces()
+    void MovePiecesActual(Vector2 direction)
     {
-
         previousColumn = column;
         previousRow = row;
+
+        otherDot = board.allDots[column + (int)direction.x, row + (int)direction.y];
+        otherDot.GetComponent<Dot>().column += -1 * (int)direction.x;
+        otherDot.GetComponent<Dot>().row += -1 * (int)direction.y;
+        column += (int)direction.x;
+        row += (int)direction.y;
+
+        StartCoroutine(CheckMoveCo());
+    }
+
+    void MovePieces()
+    {
 
         if (-45 < swipeAngle && swipeAngle <= 45 && column < board.width - 1)
         {
             // Right Swipe
-            otherDot = board.allDots[column + 1, row];
-            otherDot.GetComponent<Dot>().column -= 1;
-            column += 1;
+            MovePiecesActual(Vector2.right);
+
         }
         else if (45 < swipeAngle && swipeAngle <= 135 && row < board.height - 1)
         {
             // Up Swipe
-            otherDot = board.allDots[column, row+1];
-            otherDot.GetComponent<Dot>().row -= 1;
-            row += 1;
+            MovePiecesActual(Vector2.up);
         }
         else if (135 < swipeAngle && swipeAngle <= -135 && 0 < column)
         {
             // Left Swipe
-            otherDot = board.allDots[column - 1, row];
-            otherDot.GetComponent<Dot>().column += 1;
-            column -= 1;
+            MovePiecesActual(Vector2.left);
         }
         else if (-135 < swipeAngle && swipeAngle <= -45 && 0 < row)
         {
             // Down Swipe
-            otherDot = board.allDots[column, row - 1];
-            otherDot.GetComponent<Dot>().row += 1;
-            row -= 1;
+            MovePiecesActual(Vector2.down);
         }
-        StartCoroutine(CheckMoveCo());
+        board.curState = GameState.move;
     }
 
     void FindMatches()
